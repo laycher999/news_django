@@ -1,0 +1,67 @@
+1, 2)
+laycher = User.objects.create_user('laycher')
+Author.objects.create(user=laycher)
+balbes = User.bojects.create_user('balbes')
+Author.objects.create(user=balbes)
+
+3)
+film = Category.objects.create('Фильмы')
+music =Category.objects.create('Музыка')
+sport = Category.objects.create('Спорт')
+games = Category.objects.create('Игры')
+
+4,5)
+news_post = Post.objects.create(author=laycher, name='Hello', text='Goodbye')
+news_post = PostCategory(post=news_post, category=film)
+article_first = Post.objects.create(author=laycher, name='Роналдо жестко рыгнул в микрофон', type=True, text='https://www.youtube.com/watch?v=wosebb6bXec')
+PostCategory(post=article_second, category=music)
+article_second = Post.objects.create(author=laycher, name='Кулинарный рецепт от бабуси', type=True, text='Для рецепта нам понадобиться бла бла бла')
+PostCategory(post=article_second, category=sport)
+
+6)
+Comment.objects.create(post=news_post, author=balbes, text='Дизлайк отписка')
+Comment.objects.create(post=article_second, author=balbes, text='Ну ты бабуся дала джазу)')
+Comment.objects.create(post=article_first, author=laycher, text='Я тоже так могу')
+Comment.objects.create(post=article_first, author=laycher, text='=)')
+
+7)
+> comment = Comment.objects.get(id=2) 
+>>> comment.like()
+>>> comment.save()
+>>> comment = Comment.objects.get(id=3)
+>>> comment.like()
+>>> comment.save()
+>>> comment = Comment.objects.get(id=4)
+>>> comment.dislike()
+>>> comment.save()   
+
+8)
+>>> laycher = Author.objects.get(id=2)
+>>> laycher.update_rating()
+>>> laycher.save()
+>>> balbes = Author.objects.get(id=1)
+>>> balbes.update_rating()
+>>> balbes.save()
+
+9)
+User.objects.get(author=Author.objects.all().order_by("-rating")[0]).username
+User.objects.get(author=Author.objects.all().order_by("-rating")[0]).rating
+
+10)
+top = User.objects.get(author=Author.objects.all().order_by("-rating")[0])
+top.username
+top.rating
+top_post = Post.objects.filter(author=User.objects.get(id=Author.objects.all().order_by("-rating")[0].user_id))[0]
+top_post.name
+top_post.preview()
+
+11)
+Не понял, как это можно реализовать через консоль, поэтому сделал отдельный метод для Comment, который
+позволяет выводить все комментарии.
+Comment.objects.get(post=top_post).comments()
+
+
+
+
+
+
