@@ -6,7 +6,7 @@ from django.views.generic import (
 from .filters import ProductFilter
 from .forms import ProductForm
 from .models import Post
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class ProtectedView(LoginRequiredMixin, TemplateView):
@@ -54,7 +54,8 @@ class ProductDetail(DetailView):
     context_object_name = 'product'
 
 # Добавляем новое представление для создания товаров.
-class ProductCreate(CreateView):
+class ProductCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('portal.add_post',)
     # Указываем нашу разработанную форму
     form_class = ProductForm
     # модель товаров
@@ -103,3 +104,4 @@ class ProductSearch(ProductsList):
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
         return context
+
